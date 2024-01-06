@@ -9,6 +9,10 @@ export const extractAuthToken = (req): string => {
   return authorization.split(" ")[1];
 };
 
+export const generateToken = (user: UserModel ): string => {
+  return jwt.sign({ user }, SECRET_KEY);
+}
+
 export const validateAdmin = (req, res: Response, next: NextFunction) => {
     const token = extractAuthToken(req);
     if (!token) {
