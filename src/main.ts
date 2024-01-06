@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import * as dotenv from 'dotenv'
+import UserRoute from '../src/routes/user_route'
 
 dotenv.config({ path: __dirname + "/../.env.local" });
 dotenv.config({ path: __dirname + "/../.env" });
@@ -16,6 +17,7 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
+app.use("/users",UserRoute);
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
