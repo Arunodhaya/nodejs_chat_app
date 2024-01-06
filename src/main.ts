@@ -1,8 +1,13 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import * as dotenv from 'dotenv'
+
+dotenv.config({ path: __dirname + "/../.env.local" });
+dotenv.config({ path: __dirname + "/../.env" });
+dotenv.config();
 
 const app = express();
-const port = 3000;
+const port = process.env.APP_PORT;
 
 // Middleware for parsing JSON requests
 app.use(bodyParser.json());
