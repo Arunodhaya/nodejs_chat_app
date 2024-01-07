@@ -40,7 +40,7 @@ router.post("/create", validateUser, async (req: any, res) => {
       group_id: newGroup.id,
       user_id: creator_user_id,
     });
-    
+
     res
       .status(201)
       .json({ message: "Group created successfully", group: createdGroup });
@@ -230,7 +230,7 @@ router.post('/sendMessage/:groupId', validateUser, async (req:any, res) => {
     }
 
     // Check if the authenticated user is a member of the group
-    const member = await GroupMembersModel.getMember(group.id, req.user.id);
+    const member = await GroupMembersModel.getMember(groupId, req.user.id);
     if (!member) {
     return res.status(403).json({ error: 'Forbidden. Only group members can send messages.' });
     }

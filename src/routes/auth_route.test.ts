@@ -253,10 +253,87 @@ test('Send Group Message', async () => {
 
 
     } catch (err) {
-        console.error('Error sending group message:', err.response.data);
+        console.error('Error sending group message:', err);
     }
 });
 
+test('Get Group Messages', async () => {
+
+    try {
+        // Make a request to get group messages
+        const getMessagesResponse = await request_helper.request('GET', `/groups/getMessages/${createdGroupId}`, null, {
+            Authorization: `Bearer ${createdUser1Token}`,
+        });
+
+        // Assertions
+        expect(getMessagesResponse.status).toBe(200);
+        expect(getMessagesResponse.data.messages).toBeDefined();
+
+        const messages = getMessagesResponse.data.messages;
+        expect(Array.isArray(messages)).toBe(true);
+
+        // Check if the sent message is present in the retrieved messages
+        const sentMessageText = 'Hello, group! This is a test message.'; 
+        const sentMessageExists = messages.some((message) => message.message === sentMessageText);
+
+        expect(sentMessageExists).toBe(true);
+
+    } catch (err) {
+        console.error('Error getting group messages:', err.response.data);
+    }
+});
+
+test('Like/Unlike Group Message', async () => {
+    const userToken =  createdUser1Token; 
+    const groupId = createdGroupId; 
+  
+    try {
+      // Make a request to get group messages
+      const getMessagesResponse = await request_helper.request('GET', `/groups/getMessages/${groupId}`, null, {
+        Authorization: `Bearer ${userToken}`,
+      });
+  
+      // Assertions
+      expect(getMessagesResponse.status).toBe(200);
+      expect(getMessagesResponse.data.messages).toBeDefined();
+  
+      const messages = getMessagesResponse.data.messages;
+      expect(Array.isArray(messages)).toBe(true);
+  
+      // Choose a message to like/unlike
+      const messageToLike = messages[0]; 
+      const messageId = messageToLike.id;
+  
+      // Make a request to like/unlike the chosen message
+      const likeMessageResponse = await request_helper.request('POST', `/groups/likeMessage/${groupId}/${messageId}`, null, {
+        Authorization: `Bearer ${userToken}`,
+      });
+  
+      // Assertions for liking/unliking response
+      expect(likeMessageResponse.status).toBe(200);
+      expect(likeMessageResponse.data.message).toBeDefined();
+  
+      // Make a request to get group messages again
+      const getMessagesAfterLikeResponse = await request_helper.request('GET', `/groups/getMessages/${groupId}`, null, {
+        Authorization: `Bearer ${userToken}`,
+      });
+  
+      // Assertions for fetching messages after liking/unliking
+      expect(getMessagesAfterLikeResponse.status).toBe(200);
+      expect(getMessagesAfterLikeResponse.data.messages).toBeDefined();
+  
+      const messagesAfterLike = getMessagesAfterLikeResponse.data.messages;
+      expect(Array.isArray(messagesAfterLike)).toBe(true);
+  
+      // Check if the message is actually liked by the current user
+      const likedMessageExists = messagesAfterLike.some((message) => message.id === messageId && message.likes.length > 0);
+  
+      expect(likedMessageExists).toBe(true);
+  
+    } catch (err) {
+      console.error('Error liking/unliking message:', err.response.data);
+    }
+  });
 
 
 });
