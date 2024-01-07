@@ -29,7 +29,7 @@ router.post("/create", validateAdmin, async (req, res) => {
         });
     
         console.log('User created successfully:', newUser.toJSON());
-        res.status(201).json({ message: 'User created successfully', user: newUser.toJSON() });
+        res.status(201).json({ message: 'User created successfully', user: newUser });
       } catch (error) {
         console.error('Error creating user:', error);
         res.status(500).json({ error: 'Internal Server Error' });

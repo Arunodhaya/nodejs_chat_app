@@ -1,4 +1,4 @@
-import { Table, Column, Model, HasMany, CreatedAt, UpdatedAt, PrimaryKey } from 'sequelize-typescript';
+import { Table, Column, Model, HasMany, CreatedAt, UpdatedAt, PrimaryKey, AutoIncrement } from 'sequelize-typescript';
 import { sequelize } from './db-config';
 
 @Table({
@@ -6,6 +6,7 @@ import { sequelize } from './db-config';
 })
 export class UserModel extends Model {
     @PrimaryKey
+    @AutoIncrement
     @Column
     id: number;
 
