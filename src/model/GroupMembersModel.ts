@@ -36,6 +36,13 @@ export class GroupMembersModel extends Model {
 
   @BelongsTo(() => UserModel, 'user_id')
   user: UserModel;
+
+  static async getMember(group_id: number, user_id: number): Promise<GroupMembersModel> {
+    const result = await this.findOne({
+      where: { group_id,user_id },
+    });
+    return result;
+  }
 }
 
 sequelize.addModels([GroupMembersModel])
