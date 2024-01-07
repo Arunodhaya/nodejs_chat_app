@@ -175,7 +175,7 @@ router.post('/removeMember/:groupId/:userId', validateUser, async (req:any, res)
   }
 });
 
-router.get("/:groupId", async (req, res) => {
+router.get("/:groupId", validateUser,async (req, res) => {
   const { groupId } = req.params;
 
   try {
@@ -221,18 +221,18 @@ router.post('/sendMessage/:groupId', validateUser, async (req:any, res) => {
     const group = await GroupModel.findByPk(groupId);
 
     if (!group) {
-      return res.status(404).json({ error: 'Group not found.' });
+    return res.status(404).json({ error: 'Group not found.' });
     }
 
     // Check if the authenticated user is a member of the group
     const member = await GroupMembersModel.getMember(group.id, req.user.id);
     if (!member) {
-      return res.status(403).json({ error: 'Forbidden. Only group members can send messages.' });
+    return res.status(403).json({ error: 'Forbidden. Only group members can send messages.' });
     }
 
     // Create a new group message
     const sentMessage = await GroupMessagesModel.create({
-      group_id: group.id,
+      group_id: groupId,
       user_id: req.user.id,
       message,
     });
@@ -337,5 +337,46 @@ router.post('/likeMessage/:groupId/:messageId', validateUser, async (req:any, re
   }
 });
 
+router.delete('/:groupId', validateUser, async (req:any, res) => {
+  const { groupId } = req.params;
+
+  try {
+    // Check if the authenticated user is the creator of the group
+    const isUserGroupCreator = await GroupModel.findOne({
+      where: {
+        id: groupId,
+        creator_user_id: req.user.id,
+      },
+    });
+
+    if (!isUserGroupCreator) {
+      return res.status(403).json({ error: 'Forbidden. Only admin can delete group.' });
+    }
+
+    await GroupMembersModel.destroy({
+      where:{
+        group_id: groupId
+      }
+    })
+
+    await GroupMessagesModel.destroy({
+      where:{
+        group_id: groupId
+      }
+    })
+
+    // Delete the group
+    await GroupModel.destroy({
+      where: {
+        id: groupId,
+      },
+    });
+
+    res.json({ message: 'Group deleted successfully.' });
+  } catch (error) {
+    console.error('Error deleting the group:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 export default router;
