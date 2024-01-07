@@ -151,5 +151,65 @@ test('Create Group', async () => {
     }
 });
 
+test('Search Group', async () => {
+
+    const search_key = "Test"
+
+    try {
+        // Make a request to create a new group
+        const searchResponse = await request_helper.request('POST', `/groups/search?=${search_key}`,{} , {
+            Authorization: `Bearer ${createdUser1Token}`,
+        });
+
+        // Assertions
+        expect(searchResponse.status).toBe(201);
+        expect(searchResponse.data.groups).toBeDefined();
+
+        const matchingGroups = searchResponse.data.groups;
+        expect(Array.isArray(matchingGroups)).toBe(true);
+
+        // Check if each group name contains the search keyword (case-insensitive)
+        matchingGroups.forEach((group) => {
+            expect(group.name.toLowerCase()).toContain(search_key.toLowerCase());
+        });
+
+    } catch (err) {
+        console.error('Error creating group:', err.response.data);
+    }
+});
+
+test('Add Members to Group', async () => {
+    const userIdsToAdd = [createdUser2Id];
+    try {
+        // Make a request to add members to the group
+        const addMembersResponse = await request_helper.request('POST', `/groups/addMembers/${createdGroupId}`, { userIds: userIdsToAdd }, {
+            Authorization: `Bearer ${createdUser1Token}`,
+        });
+
+        // Assertions
+        expect(addMembersResponse.status).toBe(200);
+        expect(addMembersResponse.data.message).toBe('Members added successfully');
+        expect(addMembersResponse.data.addedMembers).toBeDefined();
+
+        const addedMembers = addMembersResponse.data.addedMembers;
+        expect(Array.isArray(addedMembers)).toBe(true);
+
+        // Check if the added members have the expected structure
+        addedMembers.forEach((member) => {
+            expect(member.group_id).toBe(createdGroupId);
+            expect(member.user_id).toBeDefined(); 
+        });
+
+        userIdsToAdd.forEach((userId) => {
+            expect(addedMembers.some((member) => member.user_id === userId)).toBe(true);
+        });
+
+
+    } catch (err) {
+        console.error('Error adding members to the group:', err);
+    }
+});
+
+
 
 });
