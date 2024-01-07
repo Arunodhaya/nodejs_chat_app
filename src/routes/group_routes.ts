@@ -35,7 +35,7 @@ router.post("/create", validateUser, async (req: any, res) => {
         },
       ],
     });
-
+    
     res
       .status(201)
       .json({ message: "Group created successfully", group: createdGroup });
@@ -138,6 +138,40 @@ router.post("/addMembers/:groupId", validateUser, async (req: any, res) => {
   } catch (error) {
     console.error("Error adding members to the group:", error);
     res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+router.post('/removeMember/:groupId/:userId', validateUser, async (req:any, res) => {
+  const { groupId,userId } = req.params;
+
+  try {
+    const group = await GroupModel.findByPk(groupId);
+
+    if (!group) {
+      return res.status(404).json({ error: "Group not found." });
+    }
+
+    // Check if the authenticated user is the creator of the group
+    if (group.creator_user_id !== req.user.id) {
+      return res
+        .status(403)
+        .json({ error: "Forbidden. Only the group admin can remove members." });
+    }
+
+    const member = await GroupMembersModel.getMember(group.id, userId);
+    if(!member) return res.status(404).json({ error: "Selected member is not in the group" });
+    // Remove member from the group
+    await GroupMembersModel.destroy({
+      where: {
+        group_id:groupId,
+        user_id:userId
+      },
+    });
+
+    res.json({ message: 'Member removed from the group successfully.' });
+  } catch (error) {
+    console.error('Error removing members from the group:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
