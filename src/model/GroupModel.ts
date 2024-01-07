@@ -1,7 +1,7 @@
 // GroupModel.ts
 
 import { Table, Column, Model, ForeignKey, CreatedAt, UpdatedAt, DeletedAt, DataType, BelongsTo, HasMany } from 'sequelize-typescript';
-import { UserModel } from './user_model'; // Update the path accordingly
+import { UserModel } from './UserModel'; // Update the path accordingly
 import { sequelize } from './db-config';
 import { GroupMembersModel } from './GroupMembersModel';
 

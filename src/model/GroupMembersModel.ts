@@ -2,7 +2,7 @@
 
 import { Table, Column, Model, ForeignKey, CreatedAt, UpdatedAt, BelongsTo } from 'sequelize-typescript';
 import { GroupModel } from './GroupModel';
-import { UserModel } from './user_model';
+import { UserModel } from './UserModel';
 import { sequelize } from './db-config';
 
 @Table({
@@ -33,7 +33,7 @@ export class GroupMembersModel extends Model {
 
   @UpdatedAt
   updatedAt: Date;
-  
+
   @BelongsTo(() => UserModel, 'user_id')
   user: UserModel;
 }

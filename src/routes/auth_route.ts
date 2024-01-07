@@ -1,6 +1,6 @@
 import express from 'express'
 import { generateToken } from '../middleware/auth.middleware'
-import { UserModel } from '../model/user_model';
+import { UserModel } from '../model/UserModel';
 import { comparePassword } from '../helper/passwordHelper';
 
 const router = express.Router()

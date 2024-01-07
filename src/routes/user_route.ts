@@ -1,11 +1,11 @@
 import express from 'express';
-import { UserModel } from '../model/user_model';
+import { UserModel } from '../model/UserModel';
 import { validateAdmin } from '../middleware/auth.middleware';
 import { getHashOfPassword } from '../helper/passwordHelper';
 
 const router = express.Router()
 
-router.get("/create", validateAdmin, async (req, res) => {
+router.post("/create", validateAdmin, async (req, res) => {
 
     const { firstName, lastName, email, password, isAdmin } = req.body;
     if (!firstName || !lastName || !email || !password) {

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import jwt, { JwtPayload } from 'jsonwebtoken'
-import { UserModel } from "../model/user_model";
+import { UserModel } from "../model/UserModel";
 
 const SECRET_KEY = process.env.JWT_SECRET_TOKEN || "SECURE-DEFAULT_SECRET;."
 
