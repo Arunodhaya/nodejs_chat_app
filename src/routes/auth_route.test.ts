@@ -210,24 +210,47 @@ test('Add Members to Group', async () => {
     }
 });
 
+test('Remove Member from Group', async () => {
+        // Make a request to add members to the group
+        const removedMemberResponse = await request_helper.request('POST', `/groups/removeMember/${createdGroupId}/${createdUser2Id}`, {}, {
+            Authorization: `Bearer ${createdUser1Token}`,
+        });
+
+        // Assertions
+        expect(removedMemberResponse.status).toBe(200);
+        expect(removedMemberResponse.data.message).toBe('Member removed from the group successfully.');
+       
+        // Make a request to fetch group details
+        const fetchGroupResponse = await request_helper.request('GET', `/groups/${createdGroupId}`, null, {
+            Authorization: `Bearer ${createdUser1Token}`,
+        });
+
+        const groupMembers = fetchGroupResponse.data.group.members;
+        expect(Array.isArray(groupMembers)).toBe(true);
+        
+        console.log("groupMembers",groupMembers,createdUser2Id)
+
+        expect(groupMembers.some((member) => member.user_id !== createdUser2Id)).toBe(true);
+});
+
 test('Fetch Group Details', async () => {
 
 
     try {
         // Make a request to fetch group details
         const fetchGroupResponse = await request_helper.request('GET', `/groups/${createdGroupId}`, null, {
-            Authorization: `Bearer ${createdGroupId}`,
+            Authorization: `Bearer ${createdUser1Token}`,
         });
 
         // Assertions
         expect(fetchGroupResponse.status).toBe(200);
         expect(fetchGroupResponse.data.group).toBeDefined();
-        expect(fetchGroupResponse.data.group_id).toBe(createdGroupId)
-        expect(fetchGroupResponse.data.name).toBe('Test Group')
+        expect(fetchGroupResponse.data.group.id).toBe(createdGroupId)
+        expect(fetchGroupResponse.data.group.name).toBe('Test Group')
 
 
     } catch (err) {
-        console.error('Error fetching group details:', err.response.data);
+        console.error('Error fetching group details:', err);
     }
 });
 

@@ -156,6 +156,12 @@ router.post('/removeMember/:groupId/:userId', validateUser, async (req:any, res)
       return res.status(404).json({ error: "Group not found." });
     }
 
+    if (group.creator_user_id === userId) {
+      return res
+        .status(403)
+        .json({ error: "You cannot remove yourself" });
+    }
+
     // Check if the authenticated user is the creator of the group
     if (group.creator_user_id !== req.user.id) {
       return res
