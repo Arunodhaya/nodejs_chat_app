@@ -35,6 +35,11 @@ router.post("/create", validateUser, async (req: any, res) => {
         },
       ],
     });
+
+    await GroupMembersModel.create({
+      group_id: newGroup.id,
+      user_id: creator_user_id,
+    });
     
     res
       .status(201)

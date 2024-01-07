@@ -231,6 +231,32 @@ test('Fetch Group Details', async () => {
     }
 });
 
+test('Send Group Message', async () => {
+
+    const messageText = 'Hello, group! This is a test message.';
+
+    try {
+        // Make a request to send a group message
+        const sendMessageResponse = await request_helper.request('POST', `/groups/sendMessage/${createdGroupId}`, { message: messageText }, {
+            Authorization: `Bearer ${createdUser1Token}`,
+        });
+
+        // Assertions
+        expect(sendMessageResponse.status).toBe(200);
+        expect(sendMessageResponse.data.message).toBe('Group message sent successfully');
+        expect(sendMessageResponse.data.sentMessage).toBeDefined();
+
+        const sentMessage = sendMessageResponse.data.sentMessage;
+        expect(sentMessage.group_id).toBe(createdGroupId);
+        expect(sentMessage.user_id).toBeDefined(); 
+        expect(sentMessage.message).toBe(messageText);
+
+
+    } catch (err) {
+        console.error('Error sending group message:', err.response.data);
+    }
+});
+
 
 
 });
