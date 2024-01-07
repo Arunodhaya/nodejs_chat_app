@@ -4,6 +4,8 @@ import { GroupModel } from "../model/GroupModel";
 import { UserModel } from "../model/UserModel";
 import { Op } from "sequelize";
 import { GroupMembersModel } from "../model/GroupMembersModel";
+import { GroupMessagesModel } from "../model/GroupMessagesModel";
+import { LikedMessagesModel } from "../model/LikedMessagesModel";
 
 const router = express.Router();
 
@@ -170,5 +172,136 @@ router.get("/:groupId", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+router.post('/sendMessage/:groupId', validateUser, async (req:any, res) => {
+  const { groupId } = req.params;
+  const { message } = req.body;
+
+  // Input validation
+  if (!message || typeof message !== 'string') {
+    return res.status(400).json({ error: 'Please type the message to be sent' });
+  }
+
+  try {
+    // Check if the group exists
+    const group = await GroupModel.findByPk(groupId);
+
+    if (!group) {
+      return res.status(404).json({ error: 'Group not found.' });
+    }
+
+    // Check if the authenticated user is a member of the group
+    const member = await GroupMembersModel.getMember(group.id, req.user.id);
+    if (!member) {
+      return res.status(403).json({ error: 'Forbidden. Only group members can send messages.' });
+    }
+
+    // Create a new group message
+    const sentMessage = await GroupMessagesModel.create({
+      group_id: group.id,
+      user_id: req.user.id,
+      message,
+    });
+
+    res.json({ message: 'Group message sent successfully', sentMessage });
+  } catch (error) {
+    console.error('Error sending group message:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.get('/getMessages/:groupId', validateUser, async (req:any, res) => {
+  const { groupId } = req.params;
+
+  try {
+    // Check if the group exists
+    const group = await GroupModel.findByPk(groupId);
+
+    if (!group) {
+      return res.status(404).json({ error: 'Group not found.' });
+    }
+
+    // Check if the authenticated user is a member of the group
+    const isMember = await GroupMembersModel.getMember(group.id, req.user.id);
+
+    if (!isMember) {
+      return res.status(403).json({ error: 'Forbidden. Only group members can access messages.' });
+    }
+
+    // Retrieve messages of the group
+    const messages = await GroupMessagesModel.findAll({
+      where: { group_id: groupId },
+      include: [
+        {
+          model: UserModel,
+          attributes: ['id', 'firstName', 'lastName'],
+        },{
+          model: LikedMessagesModel,
+          as: 'likes',
+          // attributes: [],
+        },
+      ],
+      order: [['createdAt', 'ASC']], // Order by createdAt in ascending order
+    });
+
+    res.json({ messages });
+  } catch (error) {
+    console.error('Error getting group messages:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.post('/likeMessage/:groupId/:messageId', validateUser, async (req:any, res) => {
+  const { groupId, messageId } = req.params;
+
+  try {
+    // Check if the group exists
+    const group = await GroupModel.findByPk(groupId);
+
+    if (!group) {
+      return res.status(404).json({ error: 'Group not found.' });
+    }
+
+    // Check if the authenticated user is a member of the group
+    const isMember = await GroupMembersModel.getMember(group.id, req.user.id);
+
+    if (!isMember) {
+      return res.status(403).json({ error: 'Forbidden. Only group members can like/unlike messages.' });
+    }
+
+    // Check if the message exists
+    const message = await GroupMessagesModel.findByPk(messageId);
+
+    if (!message) {
+      return res.status(404).json({ error: 'Message not found.' });
+    }
+
+    // Check if the user has already liked the message
+    const hasLiked = await LikedMessagesModel.findOne({
+      where: { user_id: req.user.id, message_id: messageId },
+    });
+
+    if (hasLiked) {
+      // If the user has already liked the message, unlike it
+      await LikedMessagesModel.destroy({
+        where: { user_id: req.user.id, message_id: messageId },
+      });
+
+      res.json({ message: 'Message unliked successfully' });
+    } else {
+      // If the user has not liked the message, like it
+      await LikedMessagesModel.create({
+        user_id: req.user.id,
+        message_id: messageId,
+      });
+
+      res.json({ message: 'Message liked successfully' });
+    }
+  } catch (error) {
+    console.error('Error liking/unliking message:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 
 export default router;
