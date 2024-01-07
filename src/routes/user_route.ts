@@ -2,6 +2,7 @@ import express from 'express';
 import { UserModel } from '../model/UserModel';
 import { validateAdmin } from '../middleware/auth.middleware';
 import { getHashOfPassword } from '../helper/passwordHelper';
+import { Op, Sequelize } from 'sequelize';
 
 const router = express.Router()
 
@@ -65,5 +66,31 @@ router.put('/edit/:userId',validateAdmin, async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+router.get('/search', validateAdmin, async (req, res) => {
+  const { query } = req.query;
+  try {
+    // Perform the search
+    const users = await UserModel.findAll({
+      where: {
+        [Op.or]:[
+          {firstName: {
+            [Op.like]: `%${query}%`, // Case-insensitive search
+          }},
+          {lastName: {
+            [Op.like]: `%${query}%`, // Case-insensitive search
+          }},
+        ]
+        
+      },
+    });
+
+    res.json({ users });
+  } catch (error) {
+    console.error('Error searching users:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 
 export default router
