@@ -118,4 +118,38 @@ describe('Test users flow', () => {
         expect(editResponse.data.user.isAdmin).toBe(false);
     });
 
+// test creating group
+let createdGroupId;
+
+
+test('Create Group', async () => {
+
+    const newGroup = {
+        group_name: 'Test Group',
+    };
+
+    try {
+        // Make a request to create a new group
+        const createResponse = await request_helper.request('POST', '/groups/create', newGroup, {
+            Authorization: `Bearer ${createdUser1Token}`,
+        });
+
+        // Assertions
+        expect(createResponse.status).toBe(201);
+        expect(createResponse.data.message).toBe('Group created successfully');
+        expect(createResponse.data.group).toBeDefined();
+
+        const createdGroup = createResponse.data.group;
+        createdGroupId = createdGroup.id
+        expect(createdGroup.id).toBeDefined();
+        expect(createdGroup.name).toBe(newGroup.group_name);
+        // 
+        expect(createdGroup.creator_user_id).toBe(createdUser1Id);
+
+    } catch (err) {
+        console.error('Error creating group:', err.response.data);
+    }
+});
+
+
 });
