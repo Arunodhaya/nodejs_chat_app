@@ -8,11 +8,12 @@ dotenv.config();
 const BASE_URL = process.env.BASEURL
 
 export const request_helper = {
-    request: (method, path, data) => {
+    request: (method, path, data,headers) => {
         return axios({
             url: BASE_URL + path,
             method: method,
-            data: data
+            data: data,
+            headers:headers
         })
     }
 
