@@ -36,5 +36,34 @@ router.post("/create", validateAdmin, async (req, res) => {
       }
 })
 
+router.put('/edit/:userId',validateAdmin, async (req, res) => {
+  const { userId } = req.params;
+  const { firstName, lastName, email, isAdmin, password } = req.body;
+
+  try {
+    // Check if the user to be edited exists
+    const userToEdit = await UserModel.findByPk(userId);
+
+    if (!userToEdit) {
+      return res.status(404).json({ error: 'User not found.' });
+    }
+
+    // Update user information
+    userToEdit.firstName = firstName || userToEdit.firstName;
+    userToEdit.lastName = lastName || userToEdit.lastName;
+    userToEdit.email = email || userToEdit.email;
+    userToEdit.isAdmin = isAdmin || userToEdit.isAdmin;
+    userToEdit.password = password ? getHashOfPassword(password):userToEdit.password
+
+
+    // Save the changes
+    await userToEdit.save();
+
+    res.json({ message: 'User updated successfully', user: userToEdit });
+  } catch (error) {
+    console.error('Error editing user:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 export default router

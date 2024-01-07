@@ -87,7 +87,7 @@ router.post("/addMembers/:groupId", validateUser, async (req: any, res) => {
       return res.status(404).json({ error: "Group not found." });
     }
 
-    // Check if the authenticated user is the creator of the group (you may adjust this logic based on your requirements)
+    // Check if the authenticated user is the creator of the group
     if (group.creator_user_id !== req.user.id) {
       return res
         .status(403)
