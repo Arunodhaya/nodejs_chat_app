@@ -210,6 +210,27 @@ test('Add Members to Group', async () => {
     }
 });
 
+test('Fetch Group Details', async () => {
+
+
+    try {
+        // Make a request to fetch group details
+        const fetchGroupResponse = await request_helper.request('GET', `/groups/${createdGroupId}`, null, {
+            Authorization: `Bearer ${createdGroupId}`,
+        });
+
+        // Assertions
+        expect(fetchGroupResponse.status).toBe(200);
+        expect(fetchGroupResponse.data.group).toBeDefined();
+        expect(fetchGroupResponse.data.group_id).toBe(createdGroupId)
+        expect(fetchGroupResponse.data.name).toBe('Test Group')
+
+
+    } catch (err) {
+        console.error('Error fetching group details:', err.response.data);
+    }
+});
+
 
 
 });
