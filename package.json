@@ -6,7 +6,7 @@
   "scripts": {
     "start": "ts-node src/main.ts",
     "dev": "nodemon --exec ts-node --transpileOnly src/main.ts",
-    "test": "jest src/**/*.test.ts"
+    "test": "jest src/**/*.test.ts --detect-open-handles"
   },
   "author": "",
   "license": "ISC",
