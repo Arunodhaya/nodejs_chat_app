@@ -1,8 +1,9 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import * as dotenv from 'dotenv'
-import UserRoute from '../src/routes/user_route'
-import AuthRoute from '../src/routes/auth_route'
+import UserRoutes from '../src/routes/user_route'
+import AuthRoutes from '../src/routes/auth_route'
+import GroupRoutes from '../src/routes/group_routes'
 
 dotenv.config({ path: __dirname + "/../.env.local" });
 dotenv.config({ path: __dirname + "/../.env" });
@@ -18,8 +19,10 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-app.use("/users",UserRoute);
-app.use("/auth",AuthRoute);
+app.use("/users",UserRoutes);
+app.use("/auth",AuthRoutes);
+app.use("/groups",GroupRoutes);
+
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
