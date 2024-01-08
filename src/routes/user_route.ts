@@ -53,7 +53,7 @@ router.put('/edit/:userId',validateAdmin, async (req, res) => {
     userToEdit.firstName = firstName || userToEdit.firstName;
     userToEdit.lastName = lastName || userToEdit.lastName;
     userToEdit.email = email || userToEdit.email;
-    userToEdit.isAdmin = isAdmin || userToEdit.isAdmin;
+    userToEdit.isAdmin = isAdmin !== undefined ? isAdmin : userToEdit.isAdmin;
     userToEdit.password = password ? getHashOfPassword(password):userToEdit.password
 
 
