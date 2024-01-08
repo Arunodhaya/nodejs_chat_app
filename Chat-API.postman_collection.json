@@ -1,0 +1,476 @@
+{
+	"info": {
+		"_postman_id": "15001e6e-fba2-45cf-beb6-1821cedb547e",
+		"name": "Chat-API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23123555"
+	},
+	"item": [
+		{
+			"name": "Create User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo0LCJmaXJzdE5hbWUiOiJBcnVuYSIsImxhc3ROYW1lIjoiUiIsImVtYWlsIjoiYXJ1bmFAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkVXVtcTlURTZZWS5qQkE2WWJoQ2IyT3pjbW1aM0RWM2xYWFJBSXZkWkpMRGkwUzRVR1o5cksiLCJpc0FkbWluIjp0cnVlLCJjcmVhdGVkQXQiOiIyMDI0LTAxLTA2VDEyOjE2OjE2LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDI0LTAxLTA2VDEyOjE2OjE2LjAwMFoifSwiaWF0IjoxNzA0NjA2NzEyfQ.KEGl-4SVnpDCpGIoDQilgzHENbPSPszK8JjbW878_5I",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"Aruna\",\n    \"lastName\": \"R1\",\n    \"email\": \"aruna_admin@gmail.com\",\n    \"password\": \"admin@123\",\n    \"isAdmin\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/users/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"users",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\":\"aruna@gmail.com\",\n    \"password\":\"aruna@123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo0LCJmaXJzdE5hbWUiOiJBcnVuYSIsImxhc3ROYW1lIjoiUiIsImVtYWlsIjoiYXJ1bmFAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkVXVtcTlURTZZWS5qQkE2WWJoQ2IyT3pjbW1aM0RWM2xYWFJBSXZkWkpMRGkwUzRVR1o5cksiLCJpc0FkbWluIjp0cnVlLCJjcmVhdGVkQXQiOiIyMDI0LTAxLTA2VDEyOjE2OjE2LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDI0LTAxLTA2VDEyOjE2OjE2LjAwMFoifSwiaWF0IjoxNzA0NjMwNzg0fQ.FfkSPIVOVlgzUn4niRl-Alogipp-oZtnPtTTJhiJkAk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"isAdmin\":false,\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/users/edit/5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"users",
+						"edit",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Group",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo0LCJmaXJzdE5hbWUiOiJBcnVuYSIsImxhc3ROYW1lIjoiUiIsImVtYWlsIjoiYXJ1bmFAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkVXVtcTlURTZZWS5qQkE2WWJoQ2IyT3pjbW1aM0RWM2xYWFJBSXZkWkpMRGkwUzRVR1o5cksiLCJpc0FkbWluIjp0cnVlLCJjcmVhdGVkQXQiOiIyMDI0LTAxLTA2VDEyOjE2OjE2LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDI0LTAxLTA2VDEyOjE2OjE2LjAwMFoifSwiaWF0IjoxNzA0NjUzNDkyfQ.AfWVniWjhJkaH4K0aRaEbHrLty6Pxcq51Us78E4r5Bw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"group_name\":\"Hello Test\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/groups/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"groups",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search Group",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxMTcsImZpcnN0TmFtZSI6IkpvaG4iLCJsYXN0TmFtZSI6IkRvZSIsImVtYWlsIjoiam9obi5kb2UuYmNjNTAwYjktMDRmNy00MTEwLTk0YTYtZjc1MmEyNzY2YmM2QGV4YW1wbGUuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkOEFBVS8vMUpCekFpdjRXMjI2elFndWFqQ205dDZSOERPUjVkOGVkZlBoalg4NGI4d2FVdG0iLCJpc0FkbWluIjpmYWxzZSwiY3JlYXRlZEF0IjoiMjAyNC0wMS0wOFQwNTowNDozNy4wMDBaIiwidXBkYXRlZEF0IjoiMjAyNC0wMS0wOFQwNTowNDozNy4wMDBaIn0sImlhdCI6MTcwNDY5MDI3N30.mVf1ggYpDHpPCdmXi87mEsmcvJgYLV-NHSxdKxi43fQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/groups/search?group_name=Test",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"groups",
+						"search"
+					],
+					"query": [
+						{
+							"key": "group_name",
+							"value": "Test"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Members",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo0LCJmaXJzdE5hbWUiOiJBcnVuYSIsImxhc3ROYW1lIjoiUiIsImVtYWlsIjoiYXJ1bmFAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkVXVtcTlURTZZWS5qQkE2WWJoQ2IyT3pjbW1aM0RWM2xYWFJBSXZkWkpMRGkwUzRVR1o5cksiLCJpc0FkbWluIjp0cnVlLCJjcmVhdGVkQXQiOiIyMDI0LTAxLTA2VDEyOjE2OjE2LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDI0LTAxLTA2VDEyOjE2OjE2LjAwMFoifSwiaWF0IjoxNzA0NTk1MjY1fQ.D46cYGIf0tNhiOsGS0wYoY3FdixBGdrbOx_RGTgYQZI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userIds\":[6]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/groups/addMembers/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"groups",
+						"addMembers",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove Member",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo0LCJmaXJzdE5hbWUiOiJBcnVuYSIsImxhc3ROYW1lIjoiUiIsImVtYWlsIjoiYXJ1bmFAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkVXVtcTlURTZZWS5qQkE2WWJoQ2IyT3pjbW1aM0RWM2xYWFJBSXZkWkpMRGkwUzRVR1o5cksiLCJpc0FkbWluIjp0cnVlLCJjcmVhdGVkQXQiOiIyMDI0LTAxLTA2VDEyOjE2OjE2LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDI0LTAxLTA2VDEyOjE2OjE2LjAwMFoifSwiaWF0IjoxNzA0NjMwNzg0fQ.FfkSPIVOVlgzUn4niRl-Alogipp-oZtnPtTTJhiJkAk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/groups/removeMember/22/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"groups",
+						"removeMember",
+						"22",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Group data",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo0LCJmaXJzdE5hbWUiOiJBcnVuYSIsImxhc3ROYW1lIjoiUiIsImVtYWlsIjoiYXJ1bmFAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkVXVtcTlURTZZWS5qQkE2WWJoQ2IyT3pjbW1aM0RWM2xYWFJBSXZkWkpMRGkwUzRVR1o5cksiLCJpc0FkbWluIjp0cnVlLCJjcmVhdGVkQXQiOiIyMDI0LTAxLTA2VDEyOjE2OjE2LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDI0LTAxLTA2VDEyOjE2OjE2LjAwMFoifSwiaWF0IjoxNzA0NjMwNzg0fQ.FfkSPIVOVlgzUn4niRl-Alogipp-oZtnPtTTJhiJkAk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/groups/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"groups",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send Group Message",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo0LCJmaXJzdE5hbWUiOiJBcnVuYSIsImxhc3ROYW1lIjoiUiIsImVtYWlsIjoiYXJ1bmFAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkVXVtcTlURTZZWS5qQkE2WWJoQ2IyT3pjbW1aM0RWM2xYWFJBSXZkWkpMRGkwUzRVR1o5cksiLCJpc0FkbWluIjp0cnVlLCJjcmVhdGVkQXQiOiIyMDI0LTAxLTA2VDEyOjE2OjE2LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDI0LTAxLTA2VDEyOjE2OjE2LjAwMFoifSwiaWF0IjoxNzA0Njg4NzQ1fQ.o4H6EnxYsMxxYHJvrZBYG3LLF4kuMY1nDMhamrOtYBA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"message\":\"Good\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/groups/sendMessage/15",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"groups",
+						"sendMessage",
+						"15"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Messages",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo0LCJmaXJzdE5hbWUiOiJBcnVuYSIsImxhc3ROYW1lIjoiUiIsImVtYWlsIjoiYXJ1bmFAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkVXVtcTlURTZZWS5qQkE2WWJoQ2IyT3pjbW1aM0RWM2xYWFJBSXZkWkpMRGkwUzRVR1o5cksiLCJpc0FkbWluIjp0cnVlLCJjcmVhdGVkQXQiOiIyMDI0LTAxLTA2VDEyOjE2OjE2LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDI0LTAxLTA2VDEyOjE2OjE2LjAwMFoifSwiaWF0IjoxNzA0NjUzNDkyfQ.AfWVniWjhJkaH4K0aRaEbHrLty6Pxcq51Us78E4r5Bw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/groups/getMessages/15",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"groups",
+						"getMessages",
+						"15"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Like Message",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo2LCJmaXJzdE5hbWUiOiJBcnVuYSIsImxhc3ROYW1lIjoiVXNlciAxIiwiZW1haWwiOiJhcnVuYV91c2VyMUBnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCRkR3FvUHVlbERhcjBSb2RnVjdwbGUuRUYzSy9mcEoySnFHZ0RXRktMSEptRUdHQmwvSjRPNiIsImlzQWRtaW4iOmZhbHNlLCJjcmVhdGVkQXQiOiIyMDI0LTAxLTA3VDA0OjU3OjM0LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDI0LTAxLTA3VDA0OjU3OjM0LjAwMFoifSwiaWF0IjoxNzA0NjIzNzYxfQ.Jtg55PziJiPrVaI7Q1RheMwJrrOQDzjVgwH7yAG3jdc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/groups/likeMessage/1/6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"groups",
+						"likeMessage",
+						"1",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search User",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxMTcsImZpcnN0TmFtZSI6IkpvaG4iLCJsYXN0TmFtZSI6IkRvZSIsImVtYWlsIjoiam9obi5kb2UuYmNjNTAwYjktMDRmNy00MTEwLTk0YTYtZjc1MmEyNzY2YmM2QGV4YW1wbGUuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkOEFBVS8vMUpCekFpdjRXMjI2elFndWFqQ205dDZSOERPUjVkOGVkZlBoalg4NGI4d2FVdG0iLCJpc0FkbWluIjpmYWxzZSwiY3JlYXRlZEF0IjoiMjAyNC0wMS0wOFQwNTowNDozNy4wMDBaIiwidXBkYXRlZEF0IjoiMjAyNC0wMS0wOFQwNTowNDozNy4wMDBaIn0sImlhdCI6MTcwNDY5MDI3N30.mVf1ggYpDHpPCdmXi87mEsmcvJgYLV-NHSxdKxi43fQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/users/search?query=UpdatedJohn",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"users",
+						"search"
+					],
+					"query": [
+						{
+							"key": "query",
+							"value": "UpdatedJohn"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Group",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo5MywiZmlyc3ROYW1lIjoiSm9obiIsImxhc3ROYW1lIjoiRG9lIiwiZW1haWwiOiJqb2huLmRvZS5jMTg3Mzk0Yi1hNGEyLTQ4ODUtYmI0NC0yYjE1YmRhZjEyNjhAZXhhbXBsZS5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCRvbUlLS2V2ZEpuc0Q3bFNYdG1ZckdlN0JGbE1jZXByb0FxSlY1VnYzaktHWE41VzhqSnhlMiIsImlzQWRtaW4iOmZhbHNlLCJjcmVhdGVkQXQiOiIyMDI0LTAxLTA4VDA0OjA5OjIxLjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDI0LTAxLTA4VDA0OjA5OjIxLjAwMFoifSwiaWF0IjoxNzA0Njg2OTYxfQ.AJdkzOTCkSkSWSDDQvLkombNI_LyTziZKvro6YT5sO4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/groups/50",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"groups",
+						"50"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
