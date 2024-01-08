@@ -133,7 +133,7 @@ router.post("/addMembers/:groupId", validateUser, async (req: any, res) => {
     const addedMembers = await Promise.all(
       usersToAdd.map(async (user) => {
         return await GroupMembersModel.create({
-          group_id: groupId,
+          group_id: Number(groupId),
           user_id: user.id,
         });
       })
@@ -243,7 +243,7 @@ router.post('/sendMessage/:groupId', validateUser, async (req:any, res) => {
 
     // Create a new group message
     const sentMessage = await GroupMessagesModel.create({
-      group_id: groupId,
+      group_id: Number(groupId),
       user_id: req.user.id,
       message,
     });
