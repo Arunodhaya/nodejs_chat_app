@@ -1,6 +1,6 @@
 import express from 'express';
 import { UserModel } from '../model/UserModel';
-import { validateAdmin } from '../middleware/auth.middleware';
+import { validateAdmin, validateUser } from '../middleware/auth.middleware';
 import { getHashOfPassword } from '../helper/passwordHelper';
 import { Op, Sequelize } from 'sequelize';
 
@@ -67,7 +67,7 @@ router.put('/edit/:userId',validateAdmin, async (req, res) => {
   }
 });
 
-router.get('/search', validateAdmin, async (req, res) => {
+router.get('/search', validateUser, async (req, res) => {
   const { query } = req.query;
   try {
     // Perform the search
