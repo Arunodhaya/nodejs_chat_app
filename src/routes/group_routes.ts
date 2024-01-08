@@ -370,6 +370,21 @@ router.delete('/:groupId', validateUser, async (req:any, res) => {
       }
     })
 
+    const groupMessages = await GroupMessagesModel.findAll({
+      where:{
+        group_id: groupId
+      }
+    })
+    const messageIds = groupMessages.map((message) => message.id);
+
+    await LikedMessagesModel.destroy({
+      where:{
+        message_id: {
+          [Op.in] : messageIds
+        }
+      }
+    })
+
     await GroupMessagesModel.destroy({
       where:{
         group_id: groupId

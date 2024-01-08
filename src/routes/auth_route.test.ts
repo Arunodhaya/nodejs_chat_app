@@ -95,6 +95,33 @@ describe('Test users flow', () => {
         createdUser1Token = loginResponse.data.token;
     })
 
+    test('Search user', async () => {
+
+        const first_name_search_key = "UpdatedJohn"
+    
+        try {
+            // Make a request to search group
+            const searchResponse = await request_helper.request('POST', `/users/search?=${first_name_search_key}`,{} , {
+                Authorization: `Bearer ${createdUser1Token}`,
+            });
+    
+            // Assertions
+            expect(searchResponse.status).toBe(201);
+            expect(searchResponse.data.users).toBeDefined();
+    
+            const matchingUsers = searchResponse.data.users;
+            expect(Array.isArray(matchingUsers)).toBe(true);
+    
+            // Check if each group name contains the search keyword (case-insensitive)
+            matchingUsers.forEach((user) => {
+                expect(user.firstName.toLowerCase()).toContain(first_name_search_key.toLowerCase());
+            });
+    
+        } catch (err) {
+            console.error('Error searching user:', err);
+        }
+    });
+    
     test('Edit User the created user with Admin Token', async () => {
 
         const updateUser = {
@@ -147,7 +174,7 @@ test('Create Group', async () => {
         expect(createdGroup.creator_user_id).toBe(createdUser1Id);
 
     } catch (err) {
-        console.error('Error creating group:', err.response.data);
+        console.error('Error creating group:', err);
     }
 });
 
@@ -226,9 +253,7 @@ test('Remove Member from Group', async () => {
         });
 
         const groupMembers = fetchGroupResponse.data.group.members;
-        expect(Array.isArray(groupMembers)).toBe(true);
-        
-        console.log("groupMembers",groupMembers,createdUser2Id)
+        expect(Array.isArray(groupMembers)).toBe(true);        
 
         expect(groupMembers.some((member) => member.user_id !== createdUser2Id)).toBe(true);
 });
@@ -358,5 +383,13 @@ test('Like/Unlike Group Message', async () => {
     }
   });
 
-
+ test('Delete Group',async ()=>{
+    // Make a request to delete group
+    console.log("createdGroupId",typeof createdGroupId)
+    const deleteGroupResponse = await request_helper.request('DELETE', `/groups/${createdGroupId}`, null, {
+    Authorization: `Bearer ${createdUser1Token}`,
+  });
+    expect(deleteGroupResponse.status).toBe(200);
+    expect(deleteGroupResponse.data.message).toBe("Group deleted successfully.")
+ }) 
 });
